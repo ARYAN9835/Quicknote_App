@@ -18,7 +18,15 @@ function App() {
       return prevNotes.filter((noteItem, index) => {
         return index !== id;
       });
-    });
+    });  
+  }
+
+  function editNote(id,editedNote) {
+    setNotes(prevNotes => {
+      const updatedNotes = [...prevNotes];
+      updatedNotes[id] = editedNote;
+      return updatedNotes;
+    })
   }
 
   return (
@@ -33,6 +41,7 @@ function App() {
             title={noteItem.title}
             content={noteItem.content}
             onDelete={deleteNote}
+            onEdit={editNote}
           />
         );
       })}
