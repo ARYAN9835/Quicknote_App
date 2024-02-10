@@ -1,15 +1,33 @@
-import React from "react";
+import React, { useState } from "react";
+import EditNote from "./EditNote";
 
 function Note(props) {
-  function handleClick() {
-    props.onDelete(props.id);
-  }
+  const [isEditing, setEditing] = useState(false);
 
-  return (
+  const openEdit = () => {
+    setEditing(true);
+  };
+
+  const closeEdit = () => {
+    setEditing(false);
+  };
+
+  return isEditing ? (
+    <EditNote
+      id={props.id}
+      title={props.title}
+      content={props.content}
+      onEdit={(id, editedNote) => {
+        props.onEdit(id, editedNote);
+        closeEdit();
+      }}
+    />
+  ) : (
     <div className="note">
       <h1>{props.title}</h1>
       <p>{props.content}</p>
-      <button onClick={handleClick}>DELETE</button>
+      <button className="edit-button" onClick={openEdit}>Edit</button>
+      <button className="delete-button" onClick={() => props.onDelete(props.id)}>DELETE</button>
     </div>
   );
 }
